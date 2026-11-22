@@ -409,6 +409,23 @@ public abstract class ProcessEngineConfiguration {
   /** Indicates whether type validation should be done before deserialization */
   protected boolean deserializationTypeValidationEnabled = false;
 
+  /**
+   * Indicates whether expressions in queries, e.g. in task queries and stored filters, are
+   * validated against an allow-list before they are evaluated. Has no effect if the evaluation
+   * of expressions in queries is disabled. Set to <code>false</code> to restore unrestricted
+   * evaluation.
+   */
+  protected boolean queryExpressionAllowListEnabled = true;
+
+  /** Comma-separated names of functions and methods that are allowed in query expressions, in addition to the built-in ones */
+  protected String allowedExpressionFunctionsInQueries;
+
+  /** Comma-separated names of beans that are allowed in query expressions. By default, no bean is allowed. */
+  protected String allowedExpressionBeansInQueries;
+
+  /** Comma-separated names of properties that are allowed for dot-notation access in query expressions. By default, none is allowed. */
+  protected String allowedExpressionPropertiesInQueries;
+
   /** An unique installation identifier */
   protected String installationId;
 
@@ -1062,6 +1079,42 @@ public abstract class ProcessEngineConfiguration {
 
   public ProcessEngineConfiguration setTelemetryRegistry(TelemetryRegistry telemetryRegistry) {
     this.telemetryRegistry = telemetryRegistry;
+    return this;
+  }
+
+  public boolean isQueryExpressionAllowListEnabled() {
+    return queryExpressionAllowListEnabled;
+  }
+
+  public ProcessEngineConfiguration setQueryExpressionAllowListEnabled(boolean queryExpressionAllowListEnabled) {
+    this.queryExpressionAllowListEnabled = queryExpressionAllowListEnabled;
+    return this;
+  }
+
+  public String getAllowedExpressionFunctionsInQueries() {
+    return allowedExpressionFunctionsInQueries;
+  }
+
+  public ProcessEngineConfiguration setAllowedExpressionFunctionsInQueries(String allowedExpressionFunctionsInQueries) {
+    this.allowedExpressionFunctionsInQueries = allowedExpressionFunctionsInQueries;
+    return this;
+  }
+
+  public String getAllowedExpressionBeansInQueries() {
+    return allowedExpressionBeansInQueries;
+  }
+
+  public ProcessEngineConfiguration setAllowedExpressionBeansInQueries(String allowedExpressionBeansInQueries) {
+    this.allowedExpressionBeansInQueries = allowedExpressionBeansInQueries;
+    return this;
+  }
+
+  public String getAllowedExpressionPropertiesInQueries() {
+    return allowedExpressionPropertiesInQueries;
+  }
+
+  public ProcessEngineConfiguration setAllowedExpressionPropertiesInQueries(String allowedExpressionPropertiesInQueries) {
+    this.allowedExpressionPropertiesInQueries = allowedExpressionPropertiesInQueries;
     return this;
   }
 

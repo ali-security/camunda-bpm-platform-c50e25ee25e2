@@ -128,6 +128,7 @@ public class FilterTaskQueryTest extends PluggableProcessEngineTest {
   @After
   public void tearDown() {
     processEngineConfiguration.setEnableExpressionsInAdhocQueries(false);
+    processEngineConfiguration.setAllowedExpressionBeansInQueries(null);
 
     Mocks.reset();
 
@@ -413,6 +414,7 @@ public class FilterTaskQueryTest extends PluggableProcessEngineTest {
     // given
     String aBusinessKey = "business key";
     Mocks.register("aBusinessKey", aBusinessKey);
+    processEngineConfiguration.setAllowedExpressionBeansInQueries("aBusinessKey");
 
     createDeploymentWithBusinessKey(aBusinessKey);
 
@@ -439,6 +441,7 @@ public class FilterTaskQueryTest extends PluggableProcessEngineTest {
 
     String aBusinessKey = "business key";
     Mocks.register("aBusinessKey", aBusinessKey);
+    processEngineConfiguration.setAllowedExpressionBeansInQueries("aBusinessKey");
 
     createDeploymentWithBusinessKey(aBusinessKey);
 
@@ -461,6 +464,7 @@ public class FilterTaskQueryTest extends PluggableProcessEngineTest {
     // given
     String aBusinessKey = "business key";
     Mocks.register("aBusinessKeyLike", "%" + aBusinessKey.substring(5));
+    processEngineConfiguration.setAllowedExpressionBeansInQueries("aBusinessKeyLike");
 
     createDeploymentWithBusinessKey(aBusinessKey);
 
@@ -487,6 +491,7 @@ public class FilterTaskQueryTest extends PluggableProcessEngineTest {
 
     String aBusinessKey = "business key";
     Mocks.register("aBusinessKeyLike", "%" + aBusinessKey.substring(5));
+    processEngineConfiguration.setAllowedExpressionBeansInQueries("aBusinessKeyLike");
 
     createDeploymentWithBusinessKey(aBusinessKey);
 

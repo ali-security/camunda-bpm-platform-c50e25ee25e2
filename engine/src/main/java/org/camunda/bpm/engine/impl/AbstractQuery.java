@@ -32,6 +32,7 @@ import java.util.Set;
 import org.camunda.bpm.engine.ProcessEngineException;
 import org.camunda.bpm.engine.exception.NotValidException;
 import org.camunda.bpm.engine.impl.QueryValidators.AdhocQueryValidator;
+import org.camunda.bpm.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import org.camunda.bpm.engine.impl.context.Context;
 import org.camunda.bpm.engine.impl.db.ListQueryParameterObject;
 import org.camunda.bpm.engine.impl.interceptor.Command;
@@ -270,6 +271,11 @@ public abstract class AbstractQuery<T extends Query<?,?>, U> extends ListQueryPa
 
       Object value;
 
+      // validated here, right before the evaluation, so that every expression
+      // is checked, no matter which query it belongs to or how the query was created;
+      // not part of the try block below, so that the BadUserRequestException is not wrapped
+      validateExpressionAgainstAllowList(expression);
+
       try {
         value = Context.getProcessEngineConfiguration()
           .getExpressionManager()
@@ -293,6 +299,13 @@ public abstract class AbstractQuery<T extends Query<?,?>, U> extends ListQueryPa
       } catch (IllegalAccessException e) {
         throw new ProcessEngineException("Unable to access method '" + methodName + "' on class '" + getClass().getCanonicalName() + "'", e);
       }
+    }
+  }
+
+  protected void validateExpressionAgainstAllowList(String expression) {
+    ProcessEngineConfigurationImpl configuration = Context.getProcessEngineConfiguration();
+    if (configuration.isQueryExpressionAllowListEnabled()) {
+      configuration.getQueryExpressionValidator().validateExpression(expression);
     }
   }
 
